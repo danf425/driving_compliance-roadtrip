@@ -1,0 +1,38 @@
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+
+verifier:
+  name: inspec
+
+platforms:
+- name: centos-7
+  driver:
+    vm_hostname: centos7.local
+- name: windows-2016
+  driver:
+    box: tas50/windows_2016
+    vm_hostname: windows2016.local
+- name: windows-2012r2
+  driver:
+    box: tas50/windows_2012r2
+    vm_hostname: windows2012r2.local
+
+suites:
+  - name: habitat_managed
+    run_list:
+      - recipe[habitat_managed_cookbook::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+      habitat_managed_cookbook:
+        origin: scottford
+        server_url: https://scottford-a2.chef-demo.com/data-collector/v0
+        token: C_0vwcTOfExhFliY0v1vV4eJqcw=
