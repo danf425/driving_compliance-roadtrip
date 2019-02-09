@@ -63,7 +63,7 @@ variable "tag_application" {
 }
 
 variable "tag_ttl" {
-  default = 3600
+  default = 4
 }
 
 ////////////////////////////////
