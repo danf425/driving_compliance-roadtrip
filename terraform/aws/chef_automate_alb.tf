@@ -68,6 +68,3 @@ resource "aws_route53_record" "chef_automate" {
   records = ["${aws_lb.chef_automate.dns_name}"]
 }
 
-output "chef_automate_server_public_r53_dns" {
-  value = "${var.automate_hostname}"
-}
