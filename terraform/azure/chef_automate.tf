@@ -15,7 +15,10 @@ resource "azurerm_dns_a_record" "automate_dns" {
   records             = ["${azurerm_public_ip.automate_pip.ip_address}"]
 }
 
-# Create instance network interface
+locals {
+  ip_conf_name = "automate-ipconfig"
+}
+
 resource "azurerm_network_interface" "automate_nic" {
   name                      = "${var.tag_contact}-${var.tag_application}-automate-nic"
   location                  = "${azurerm_resource_group.rg.location}"
@@ -23,7 +26,7 @@ resource "azurerm_network_interface" "automate_nic" {
   network_security_group_id = "${azurerm_network_security_group.chef_automate.id}"
 
   ip_configuration {
-    name                          = "automate-ipconfig"
+    name                          = "${local.ip_conf_name}"
     subnet_id                     = "${azurerm_subnet.backend.id}"
     private_ip_address_allocation = "dynamic"
     public_ip_address_id          = "${azurerm_public_ip.automate_pip.id}"
@@ -39,14 +42,26 @@ resource "azurerm_network_interface" "automate_nic" {
   }
 }
 
+resource "azurerm_network_interface_backend_address_pool_association" "automate_be_pool_assoc" {
+  network_interface_id    = "${azurerm_network_interface.automate_nic.id}"
+  ip_configuration_name   = "${local.ip_conf_name}"
+  backend_address_pool_id = "${azurerm_lb_backend_address_pool.backend_pool.id}"
+}
+
 data "template_file" "install_chef_automate_cli" {
   template = "${file("${path.module}/templates/chef_automate/install_chef_automate_cli.sh.tpl")}"
 }
 
+locals {
+  hostname = "${var.tag_contact}-automate-${random_id.randomId.hex}"
+}
+
+
 resource "azurerm_virtual_machine" "chef_automate" {
-  name                  = "${var.tag_contact}-automate-fe-${random_id.randomId.hex}.${var.automate_app_gateway_dns_zone}"
+  name                  = "${local.hostname}"
   location              = "${azurerm_resource_group.rg.location}"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
+  availability_set_id   = "${azurerm_availability_set.avset.id}"
   network_interface_ids = ["${azurerm_network_interface.automate_nic.id}"]
   vm_size               = "${var.automate_server_instance_type}"
   delete_os_disk_on_termination = true
@@ -73,7 +88,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 
   os_profile {
-    computer_name  = "${var.tag_contact}-automate-fe-${random_id.randomId.hex}"
+    computer_name  = "${local.hostname}"
     admin_username = "${var.azure_image_user}"
     admin_password = "${var.azure_image_password}"
   }
@@ -109,7 +124,6 @@ resource "azurerm_virtual_machine" "chef_automate" {
 
   provisioner "remote-exec" {
     inline = [
-      # "sudo hostnamectl set-hostname ${var.tag_contact}-automate-${random_id.randomId.hex}",
       "pwd",
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo sysctl -w vm.dirty_expire_centisecs=20000",
@@ -117,7 +131,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
       "sudo chmod +x /tmp/install_chef_automate_cli.sh",
       "sudo bash /tmp/install_chef_automate_cli.sh",
       "sudo ./chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
-      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${azurerm_virtual_machine.chef_automate.name}\"/g' /tmp/config.toml",
+      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${local.hostname}.${var.automate_app_gateway_dns_zone}\"/g' /tmp/config.toml",
       "sudo sed -i 's/channel = \".*\"/channel = \"${var.channel}\"/g' /tmp/config.toml",
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",

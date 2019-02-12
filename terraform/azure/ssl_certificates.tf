@@ -11,27 +11,10 @@ resource "acme_registration" "reg" {
   email_address   = "${var.tag_contact}@chef.io"
 }
 
-resource "acme_certificate" "app_gateway_cert" {
-  account_key_pem = "${acme_registration.reg.account_key_pem}"
-  common_name     = "${azurerm_dns_a_record.app_gateway_dns.name}.${azurerm_dns_a_record.app_gateway_dns.zone_name}"
-
-  dns_challenge {
-    provider = "azure"
-
-    config {
-      AZURE_CLIENT_ID       = "${var.azure_client_id}"
-      AZURE_CLIENT_SECRET   = "${var.azure_client_secret}"
-      AZURE_SUBSCRIPTION_ID = "${var.azure_sub_id}"
-      AZURE_TENANT_ID       = "${var.azure_tenant_id}"
-      AZURE_RESOURCE_GROUP  = "azure-dns-rg"
-    }
-  }
-}
-
 resource "acme_certificate" "automate_cert" {
   account_key_pem = "${acme_registration.reg.account_key_pem}"
-  common_name     = "${azurerm_dns_a_record.automate_dns.name}.${azurerm_dns_a_record.automate_dns.zone_name}"
-  #subject_alternative_names = ["www2.example.com"]
+  common_name     = "${azurerm_dns_a_record.automate_lb_dns.name}.${azurerm_dns_a_record.automate_lb_dns.zone_name}"
+  subject_alternative_names = ["${var.tag_contact}-automate-fe-${random_id.randomId.hex}.${azurerm_dns_a_record.automate_lb_dns.zone_name}"]
 
   dns_challenge {
     provider = "azure"
