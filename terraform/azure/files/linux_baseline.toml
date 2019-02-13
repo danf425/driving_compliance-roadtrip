@@ -1,0 +1,7 @@
+sleep_time = 30
+
+[reporter]
+stdout = false
+url = "https://jmery-automate-ac76cb5976ca0023.azure.chef-demo.com/data-collector/v0"
+token = "ImstZKgaDyMKlpKGXV5g5H--uqA="
+verify_ssl = true
