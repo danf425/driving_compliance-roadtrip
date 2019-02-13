@@ -79,6 +79,12 @@ variable "azure_image_password" {
   description = "Password for azurerm_image_user"
 }
 
+variable "origin" {
+  default = ""
+  description = "Habitat package origin"
+}
+
+
 ////////////////////////////////
 // Chef Automate
 
@@ -91,11 +97,6 @@ variable "automate_license" {
   default = "Contact Chef Sales at sales@chef.io to request a license."
   description = "automate_license is the license key for your A2 installation"
 }
-
-# variable "automate_alb_acm_matcher" {
-#   default = "*.chef-demo.com"
-#   description = "Matcher to look up the ACM cert for the ALB (when using chef_automate_alb.tf"
-# }
 
 variable "automate_app_gateway_dns_zone" {
   default = "azure.chef-demo.com"
