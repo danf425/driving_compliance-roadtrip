@@ -94,7 +94,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 
   os_profile_linux_config {
-    disable_password_authentication = false
+    disable_password_authentication = true
 
     ssh_keys {
       path     = "/home/${var.azure_image_user}/.ssh/authorized_keys"
@@ -124,7 +124,6 @@ resource "azurerm_virtual_machine" "chef_automate" {
 
   provisioner "remote-exec" {
     inline = [
-      "pwd",
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo sysctl -w vm.dirty_expire_centisecs=20000",
       "curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
@@ -136,9 +135,9 @@ resource "azurerm_virtual_machine" "chef_automate" {
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
-      "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa | tee",
-      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> $HOME/automate-credentials.toml",
+      "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
       "sudo chown ${var.azure_image_user}:${var.azure_image_user} $HOME/automate-credentials.toml",
+      "sudo echo -e api-token = \"$(sudo chef-automate admin-token)\" >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
     ]
   }
