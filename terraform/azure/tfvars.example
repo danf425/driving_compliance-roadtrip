@@ -19,3 +19,5 @@ tag_project = "proj"
 tag_dept = "sales"
 
 tag_contact = "me@somewhere.com"
+
+automate_hostname = "jmery-a2"

@@ -14,7 +14,7 @@ resource "acme_registration" "reg" {
 resource "acme_certificate" "automate_cert" {
   account_key_pem = "${acme_registration.reg.account_key_pem}"
   common_name     = "${azurerm_dns_a_record.automate_lb_dns.name}.${azurerm_dns_a_record.automate_lb_dns.zone_name}"
-  subject_alternative_names = ["${var.tag_contact}-automate-fe-${random_id.randomId.hex}.${azurerm_dns_a_record.automate_lb_dns.zone_name}"]
+  subject_alternative_names = ["${var.automate_hostname}-fe.${azurerm_dns_a_record.automate_lb_dns.zone_name}"]
 
   dns_challenge {
     provider = "azure"

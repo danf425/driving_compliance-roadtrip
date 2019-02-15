@@ -7,7 +7,7 @@ resource "azurerm_public_ip" "automate_lb_pip" {
 }
 
 resource "azurerm_dns_a_record" "automate_lb_dns" {
-  name                = "${var.tag_contact}-automate-${random_id.randomId.hex}" // Fixing a cycle thing; prob a better way
+  name                = "${var.automate_hostname}"
   zone_name           = "${var.automate_app_gateway_dns_zone}"
   resource_group_name = "azure-dns-rg"
   ttl                 = 300
@@ -15,7 +15,7 @@ resource "azurerm_dns_a_record" "automate_lb_dns" {
 }
 
 resource "azurerm_availability_set" "avset" {
-  name                         = "${var.tag_contact}-automate-${random_id.randomId.hex}-avset" // same as above
+  name                         = "${var.automate_hostname}-avset" // same as above
   location                     = "${azurerm_resource_group.rg.location}"
   resource_group_name          = "${azurerm_resource_group.rg.name}"
   platform_fault_domain_count  = 2

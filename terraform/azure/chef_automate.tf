@@ -9,7 +9,7 @@ resource "azurerm_public_ip" "automate_pip" {
 }
 
 resource "azurerm_dns_a_record" "automate_dns" {
-  name                = "${var.tag_contact}-automate-fe-${random_id.randomId.hex}"
+  name                = "${var.automate_hostname}-fe"
   zone_name           = "${var.automate_app_gateway_dns_zone}"
   resource_group_name = "azure-dns-rg"
   ttl                 = 300
@@ -54,13 +54,11 @@ data "template_file" "install_chef_automate_cli" {
 }
 
 locals {
-  hostname = "${var.tag_contact}-automate-${random_id.randomId.hex}"
   full_cert_chain = "${acme_certificate.automate_cert.certificate_pem}${acme_certificate.automate_cert.issuer_pem}"
 }
 
-
 resource "azurerm_virtual_machine" "chef_automate" {
-  name                  = "${local.hostname}"
+  name                  = "${var.automate_hostname}"
   location              = "${azurerm_resource_group.rg.location}"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
   availability_set_id   = "${azurerm_availability_set.avset.id}"
@@ -82,7 +80,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 
   storage_os_disk {
-    name          = "${var.tag_contact}-automate-fe-${random_id.randomId.hex}-osdisk"
+    name          = "${var.automate_hostname}-fe-${random_id.randomId.hex}-osdisk"
     vhd_uri       = "${azurerm_storage_account.stor.primary_blob_endpoint}${azurerm_storage_container.storcont.name}/${var.tag_application}-chef_automate-osdisk.vhd"
     caching       = "ReadWrite"
     create_option = "FromImage"
@@ -90,7 +88,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 
   os_profile {
-    computer_name  = "${local.hostname}"
+    computer_name  = "${var.automate_hostname}"
     admin_username = "${var.azure_image_user}"
     admin_password = "${var.azure_image_password}"
   }
@@ -132,7 +130,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
       "sudo chmod +x /tmp/install_chef_automate_cli.sh",
       "sudo bash /tmp/install_chef_automate_cli.sh",
       "sudo ./chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
-      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${local.hostname}.${var.automate_app_gateway_dns_zone}\"/g' /tmp/config.toml",
+      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${var.automate_hostname}.${var.automate_app_gateway_dns_zone}\"/g' /tmp/config.toml",
       "sudo sed -i 's/channel = \".*\"/channel = \"${var.channel}\"/g' /tmp/config.toml",
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",

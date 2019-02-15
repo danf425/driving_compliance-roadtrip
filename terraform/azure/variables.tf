@@ -98,6 +98,10 @@ variable "automate_license" {
   description = "automate_license is the license key for your A2 installation"
 }
 
+variable "automate_hostname" {
+  description = "automate_hostname is the hostname which will be given to your A2 instance.  Must be DNS-compliant."
+}
+
 variable "automate_app_gateway_dns_zone" {
   default = "azure.chef-demo.com"
   description = "Matcher to find the Azure DNS zone"
