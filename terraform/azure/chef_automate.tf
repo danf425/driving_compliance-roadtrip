@@ -5,6 +5,7 @@ resource "azurerm_public_ip" "automate_pip" {
   sku                 = "Standard"
   allocation_method   = "Static"
   # Normally this would be dynamic, but static simplifies dynamic certs from Let's Encrypt
+  # (Due to timing of IP assignment, DNS entry, and SSL cert creation)
 }
 
 resource "azurerm_dns_a_record" "automate_dns" {
@@ -54,6 +55,7 @@ data "template_file" "install_chef_automate_cli" {
 
 locals {
   hostname = "${var.tag_contact}-automate-${random_id.randomId.hex}"
+  full_cert_chain = "${acme_certificate.automate_cert.certificate_pem}${acme_certificate.automate_cert.issuer_pem}"
 }
 
 
@@ -114,7 +116,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
 
   provisioner "file" {
     destination = "/tmp/ssl_cert"
-    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : acme_certificate.automate_cert.certificate_pem}"
+    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : local.full_cert_chain}"
   }
 
   provisioner "file" {
