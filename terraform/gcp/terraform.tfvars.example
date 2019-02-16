@@ -1,0 +1,26 @@
+// GCP Info
+gcp_credentials_file = "~/.config/gcloud/application_default_credentials.json"
+gcp_ssh_public_key = "~/.ssh/jmery_sa.pub"
+gcp_project = "jeff-mery"
+
+// Object Tags
+// lower-case, numbers, underscore, & dash only
+label_contact="jmery"
+label_customer="gcp-cust"
+label_project="proj"
+label_dept="sales"
+label_application="hab-managed"
+
+// Automate Config
+
+automate_hostname= "jmery-a2"
+automate_dns_zone = "gcp.chef-demo.com"
+#automate_license = "<YOUR AUTOMATE LICENSE>"
+
+// NOTE: If you have an acm cert and r53 managed hosted zone, you
+// can use chef_automate_alb.tf.example to build out an ALB with SSL
+// and DNS via R53.
+// ** You do not need to set custom ssl key and chain in this scenario **
+
+#automate_alb_acm_matcher = "*.chef-demo.com"
+#automate_alb_r53_matcher = "chef-demo.com."
