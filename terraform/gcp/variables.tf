@@ -1,3 +1,4 @@
+///////////////////////////////////////
 // GCP Info
 
 variable "gcp_credentials_file" {
@@ -21,6 +22,11 @@ variable "gcp_ssh_public_key" {
   description = "Path to your public SSH key file on your local machine"
 }
 
+variable "gcp_ssh_private_key" {
+  description = "Path to your private SSH key file on your local machine"
+}
+
+///////////////////////////////////////
 // Required Labels (aka Tags)
 variable "label_customer" {
   description = "label_customer is the customer tag which will be added to AWS. lower-case, numbers, underscores, or dashes only"
@@ -45,9 +51,15 @@ variable "label_ttl" {
   default = 4
 }
 
+///////////////////////////////////////
 // Automate Variables
+
+variable "automate_license" {
+  description = "License for Automate"
+}
+
 variable "automate_hostname" {
-  description = "Hostname of the a2 server. Will also be used for DNS entry into zone specified below."
+  description = "Hostname of the automate server. Will also be used for DNS entry into zone specified below."
 }
 
 variable "automate_dns_zone_name" {
@@ -85,12 +97,18 @@ variable "automate_custom_ssl" {
 
 variable "automate_custom_ssl_private_key" {
   default="Paste private key here"
-  description = "automate_private_key is the SSL private key that will be used to congfigure HTTPS for A2"
+  description = "automate_private_key is the SSL private key that will be used to congfigure HTTPS for automate"
 }
 
 variable "automate_custom_ssl_cert_chain" {
   default="Paste certificate chain here"
-  description = "automate_cert_chain is the SSL certificate chain that will be used to congfigure HTTPS for A2"
+  description = "automate_cert_chain is the SSL certificate chain that will be used to congfigure HTTPS for automate"
+}
+
+variable "automate_channel" {
+  default = "current"
+  description = "Release channel subscription for automate install and updates"
+
 }
 
 // Habitat Settings
@@ -103,19 +121,6 @@ variable "automate_custom_ssl_cert_chain" {
 # ////////////////////////////////
 # // Chef Automate
 #
-# variable "channel" {
-#   default="current"
-#   description = "channel is the habitat channel which will be used for installing A2"
-# }
-#
-# variable "automate_hostname" {
-#   description = "automate_hostname is the hostname which will be given to your A2 instance"
-# }
-#
-# variable "automate_license" {
-#   default = "Contact Chef Sales at sales@chef.io to request a license."
-#   description = "automate_license is the license key for your A2 installation"
-# }
 #
 # variable "automate_alb_acm_matcher" {
 #   default = "*.chef-demo.com"
