@@ -3,5 +3,5 @@ output "chef_automate_public_ip" {
 }
 
 output "chef_automate_url" {
-  value = "https://${google_dns_record_set.a2_fe_dns.name}"
+  value = "https://${substr(google_dns_record_set.a2_dns.name, 0, length(google_dns_record_set.a2_dns.name) - 1)}"
 }

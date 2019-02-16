@@ -18,7 +18,7 @@ data "google_dns_managed_zone" "chef-demo" {
 
 locals {
   // GCP returns a trailing '.' from the managed zone data that needs to be stripped
-  domain = "${substr(data.google_dns_managed_zone.chef-demo.dns_name, 0, length(data.google_dns_managed_zone.chef-demo.dns_name) - 1)}"
+  fqdn = "${var.automate_hostname}.${substr(data.google_dns_managed_zone.chef-demo.dns_name, 0, length(data.google_dns_managed_zone.chef-demo.dns_name) - 1)}"
 }
 
 resource "google_compute_network" "a2_network" {

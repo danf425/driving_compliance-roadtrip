@@ -3,27 +3,27 @@ data "template_file" "install_chef_automate_cli" {
 }
 
 locals {
-  full_fe_cert_chain = "${acme_certificate.a2_fe_cert.certificate_pem}${acme_certificate.a2_fe_cert.issuer_pem}"
+  full_cert_chain = "${acme_certificate.a2_cert.certificate_pem}${acme_certificate.a2_cert.issuer_pem}"
 }
 
-resource "google_compute_address" "a2_fe_ext_ip" {
-  name = "a2-fe-ext-ip"
+resource "google_compute_address" "a2_ext_ip" {
+  name = "a2-ext-ip"
   address_type = "EXTERNAL"
 }
 
-resource "google_dns_record_set" "a2_fe_dns" {
+resource "google_dns_record_set" "a2_dns" {
   project = "${data.google_dns_managed_zone.chef-demo.project}"
-  name = "${var.automate_hostname}-fe.${data.google_dns_managed_zone.chef-demo.dns_name}"
+  name = "${var.automate_hostname}.${data.google_dns_managed_zone.chef-demo.dns_name}"
   managed_zone = "${data.google_dns_managed_zone.chef-demo.name}"
   type = "A"
   ttl  = 300
 
-  rrdatas = ["${google_compute_address.a2_fe_ext_ip.address}"]
+  rrdatas = ["${google_compute_address.a2_ext_ip.address}"]
 }
 
 resource "google_compute_instance" "a2" {
-  name         = "${var.automate_hostname}-fe-${random_id.instance_id.hex}"
-  hostname     = "${var.automate_hostname}-fe.${local.domain}"
+  name         = "${var.automate_hostname}-${random_id.instance_id.hex}"
+  hostname     = "${local.fqdn}"
   machine_type = "${var.automate_machine_type}"
   zone         = "${data.google_compute_zones.available.names[0]}" // Default to first available zone
   allow_stopping_for_update = true // Let Terraform resize on the fly if needed
@@ -53,7 +53,7 @@ resource "google_compute_instance" "a2" {
   network_interface {
     network = "${google_compute_network.a2_network.name}"
     access_config {
-      nat_ip = "${google_compute_address.a2_fe_ext_ip.address}"
+      nat_ip = "${google_compute_address.a2_ext_ip.address}"
     }
   }
 
@@ -69,7 +69,7 @@ resource "google_compute_instance" "a2" {
 
   provisioner "file" {
     destination = "/tmp/ssl_cert"
-    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : local.full_fe_cert_chain}"
+    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : local.full_cert_chain}"
 
     connection {
       user     = "${var.label_contact}"
@@ -79,7 +79,7 @@ resource "google_compute_instance" "a2" {
 
   provisioner "file" {
     destination = "/tmp/ssl_key"
-    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_private_key : acme_certificate.a2_fe_cert.private_key_pem}"
+    content = "${var.automate_custom_ssl ? var.automate_custom_ssl_private_key : acme_certificate.a2_cert.private_key_pem}"
 
     connection {
       user     = "${var.label_contact}"
@@ -95,7 +95,7 @@ resource "google_compute_instance" "a2" {
       "sudo chmod +x /tmp/install_chef_automate_cli.sh",
       "sudo bash /tmp/install_chef_automate_cli.sh",
       "sudo ./chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
-      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${var.automate_hostname}-fe.${local.domain}\"/g' /tmp/config.toml",
+      "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${local.fqdn}\"/g' /tmp/config.toml",
       "sudo sed -i 's/channel = \".*\"/channel = \"${var.automate_channel}\"/g' /tmp/config.toml",
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
