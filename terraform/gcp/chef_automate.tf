@@ -51,7 +51,7 @@ resource "google_compute_instance" "a2" {
   }
 
   network_interface {
-    network = "default"
+    network = "${google_compute_network.a2_network.name}"
     access_config {
       nat_ip = "${google_compute_address.a2_ext_ip.address}"
     }
