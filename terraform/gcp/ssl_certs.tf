@@ -11,9 +11,9 @@ resource "acme_registration" "reg" {
   email_address   = "${var.label_contact}@chef.io"
 }
 
-resource "acme_certificate" "a2_cert" {
+resource "acme_certificate" "a2_fe_cert" {
   account_key_pem = "${acme_registration.reg.account_key_pem}"
-  common_name     = "${local.fqdn}"
+  common_name     = "${var.automate_hostname}-fe.${local.domain}"
   #subject_alternative_names = ["${google_dns_record_set.a2_dns.name}-fe.${azurerm_dns_a_record.automate_lb_dns.zone_name}"]
 
   dns_challenge {
