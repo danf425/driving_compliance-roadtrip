@@ -43,12 +43,18 @@ variable "label_ttl" {
 
 // Automate Variables
 variable "automate_hostname" {
-  description = "Hostname of the a2 server. Will also be used for DNS entry."
+  description = "Hostname of the a2 server. Will also be used for DNS entry into zone specified below."
 }
 
-variable "automate_dns_zone" {
-  description = "GCP-hosted DNS zone in which to register automate_hostname"
+variable "automate_dns_zone_name" {
+  description = "GCP-managed DNS zone name in which to register automate_hostname"
 }
+
+variable "automate_dns_zone_project" {
+  default = "null"
+  description = "Project hosting the automate_dns_zone above.  Defaults to gcp_project variable."
+}
+
 
 variable "automate_machine_type" {
   default = "n1-standard-4"
