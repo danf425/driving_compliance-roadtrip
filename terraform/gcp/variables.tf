@@ -17,6 +17,10 @@ Region List: https://cloud.google.com/compute/docs/regions-zones/
 EOF
 }
 
+variable "gcp_ssh_public_key" {
+  description = "Path to your public SSH key file on your local machine"
+}
+
 // Required Labels (aka Tags)
 variable "label_customer" {
   description = "label_customer is the customer tag which will be added to AWS. lower-case, numbers, underscores, or dashes only"
@@ -55,7 +59,6 @@ variable "automate_dns_zone_project" {
   description = "Project hosting the automate_dns_zone above.  Defaults to gcp_project variable."
 }
 
-
 variable "automate_machine_type" {
   default = "n1-standard-4"
   description = <<EOF
@@ -65,8 +68,29 @@ Machine Types:  https://cloud.google.com/compute/docs/machine-types
 EOF
 }
 
-variable "gcp_ssh_public_key" {
-  description = "Path to your public SSH key file on your local machine"
+variable "acme_provider_url" {
+  default = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  description = <<EOF
+An API endpoint URL for an ACME-compliant CA.  We default to LetsEncrypt staging endpoint.
+This will issue certs, but the certs will not be valid.
+
+For valid certs from LetsEncrypt, use https://acme-v02.api.letsencrypt.org/directory
+EOF
+}
+
+variable "automate_custom_ssl" {
+  default = "false"
+  description = "Enable to configure automate with the below certificate"
+}
+
+variable "automate_custom_ssl_private_key" {
+  default="Paste private key here"
+  description = "automate_private_key is the SSL private key that will be used to congfigure HTTPS for A2"
+}
+
+variable "automate_custom_ssl_cert_chain" {
+  default="Paste certificate chain here"
+  description = "automate_cert_chain is the SSL certificate chain that will be used to congfigure HTTPS for A2"
 }
 
 // Habitat Settings
