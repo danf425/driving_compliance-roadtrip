@@ -154,15 +154,15 @@ resource "azurerm_virtual_machine" "chef_automate" {
 
 data "external" "a2_account" {
   program = ["bash", "${path.module}/data-sources/get-automate-account.sh"]
-  depends_on = ["google_compute_instance.a2"]
+  depends_on = ["azurerm_virtual_machine.chef_automate"]
 }
 
 data "external" "a2_password" {
   program = ["bash", "${path.module}/data-sources/get-automate-password.sh"]
-  depends_on = ["google_compute_instance.a2"]
+  depends_on = ["azurerm_virtual_machine.chef_automate"]
 }
 
 data "external" "a2_token" {
   program = ["bash", "${path.module}/data-sources/get-automate-token.sh"]
-  depends_on = ["google_compute_instance.a2"]
+  depends_on = ["azurerm_virtual_machine.chef_automate"]
 }
