@@ -142,6 +142,16 @@ resource "azurerm_virtual_machine" "chef_automate" {
     ]
   }
 
+  provisioner "local-exec" {
+    // Clean up local known_hosts in case we get a re-used public IP
+    command = "ssh-keygen -R ${azurerm_public_ip.automate_pip.ip_address}"
+  }
+
+  provisioner "local-exec" {
+    // Write ssh key for Automate server to local known_hosts so we can scp automate-credentials.toml in data.external.a2_secrets
+    command = "ssh-keyscan -t ecdsa ${azurerm_public_ip.automate_pip.ip_address} >> ~/.ssh/known_hosts"
+  }
+
   tags {
     X-Dept        = "${var.tag_dept}"
     X-Customer    = "${var.tag_customer}"
@@ -152,17 +162,13 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 }
 
-data "external" "a2_account" {
-  program = ["bash", "${path.module}/data-sources/get-automate-account.sh"]
+data "external" "a2_secrets" {
+  program = ["bash", "${path.module}/data-sources/get-automate-secrets.sh"]
   depends_on = ["azurerm_virtual_machine.chef_automate"]
-}
 
-data "external" "a2_password" {
-  program = ["bash", "${path.module}/data-sources/get-automate-password.sh"]
-  depends_on = ["azurerm_virtual_machine.chef_automate"]
-}
-
-data "external" "a2_token" {
-  program = ["bash", "${path.module}/data-sources/get-automate-token.sh"]
-  depends_on = ["azurerm_virtual_machine.chef_automate"]
+  query = {
+    ssh_user = "${var.azure_image_user}"
+    ssh_key  = "${var.azure_private_key_path}"
+    a2_ip    = "${azurerm_public_ip.automate_pip.ip_address}"
+  }
 }
