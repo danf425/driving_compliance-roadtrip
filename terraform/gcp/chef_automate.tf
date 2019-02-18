@@ -111,19 +111,24 @@ resource "google_compute_instance" "a2" {
       private_key = "${file("${var.gcp_ssh_private_key}")}"
     }
   }
+  provisioner "local-exec" {
+    // Clean up local known_hosts in case we get a re-used public IP
+    command = "ssh-keygen -R ${google_compute_address.a2_ext_ip.address}"
+  }
+
+  provisioner "local-exec" {
+    // Write ssh key for Automate server to local known_hosts so we can scp automate-credentials.toml in data.external.a2_secrets
+    command = "ssh-keyscan -t ecdsa ${google_compute_address.a2_ext_ip.address} >> ~/.ssh/known_hosts"
+  }
 }
 
-data "external" "a2_account" {
-  program = ["bash", "${path.module}/data-sources/get-automate-account.sh"]
+data "external" "a2_secrets" {
+  program = ["bash", "${path.module}/data-sources/get-automate-secrets.sh"]
   depends_on = ["google_compute_instance.a2"]
-}
 
-data "external" "a2_password" {
-  program = ["bash", "${path.module}/data-sources/get-automate-password.sh"]
-  depends_on = ["google_compute_instance.a2"]
-}
-
-data "external" "a2_token" {
-  program = ["bash", "${path.module}/data-sources/get-automate-token.sh"]
-  depends_on = ["google_compute_instance.a2"]
+  query = {
+    ssh_user = "${var.label_contact}"
+    ssh_key  = "${var.gcp_ssh_private_key}"
+    a2_ip    = "${google_compute_address.a2_ext_ip.address}"
+  }
 }
