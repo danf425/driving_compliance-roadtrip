@@ -206,9 +206,9 @@ resource "aws_instance" "chef_automate" {
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
       "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
-      "sudo chown ubuntu:ubuntu /home/${var.platform}/automate-credentials.toml",
-      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> /home/${var.platform}/automate-credentials.toml",
-      "sudo cat /home/${var.platform}/automate-credentials.toml",
+      "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
+      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> $HOME/automate-credentials.toml",
+      "sudo cat $HOME/automate-credentials.toml",
     ]
   }
 }
