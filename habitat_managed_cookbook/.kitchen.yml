@@ -33,6 +33,6 @@ suites:
         - test/integration/default
     attributes:
       habitat_managed_cookbook:
-        origin: scottford
-        server_url: https://scottford-a2.chef-demo.com/data-collector/v0
-        token: LxEm-t58OUx5rOT-IajSUpPNzpc=
+        origin: <%= ENV['HAB_ORIGIN'] %>
+        server_url: <%= ENV['SERVER_URL'] %>
+        token: <%= ENV['TOKEN'] %>
