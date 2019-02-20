@@ -206,9 +206,30 @@ resource "aws_instance" "chef_automate" {
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
       "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
-      "sudo chown ubuntu:ubuntu /home/${var.platform}/automate-credentials.toml",
-      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> /home/${var.platform}/automate-credentials.toml",
-      "sudo cat /home/${var.platform}/automate-credentials.toml",
+      "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
+      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> $HOME/automate-credentials.toml",
+      "sudo cat $HOME/automate-credentials.toml",
     ]
+  }
+
+  provisioner "local-exec" {
+    // Clean up local known_hosts in case we get a re-used public IP
+    command = "ssh-keygen -R ${aws_instance.chef_automate.public_ip}"
+  }
+
+  provisioner "local-exec" {
+    // Write ssh key for Automate server to local known_hosts so we can scp automate-credentials.toml in data.external.a2_secrets
+    command = "ssh-keyscan -t ecdsa ${aws_instance.chef_automate.public_ip} >> ~/.ssh/known_hosts"
+  }
+}
+
+data "external" "a2_secrets" {
+  program = ["bash", "${path.module}/data-sources/get-automate-secrets.sh"]
+  depends_on = ["aws_instance.chef_automate"]
+
+  query = {
+    ssh_user = "${var.platform}"
+    ssh_key  = "${var.aws_key_pair_file}"
+    a2_ip    = "${aws_instance.chef_automate.public_ip}"
   }
 }
