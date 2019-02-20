@@ -14,7 +14,7 @@ resource "random_id" "instance_id" {
 
 # Create a resource group if it doesn’t exist
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.tag_contact}-${var.tag_application}-rg"
+  name     = "chef-automate-${random_id.instance_id.hex}-rg"
   location = "${var.azure_region}"
 
   tags {
@@ -29,7 +29,7 @@ resource "azurerm_resource_group" "rg" {
 
 # Create virtual network
 resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.tag_contact}-${var.tag_application}-vnet"
+  name                = "chef-automate-${random_id.instance_id.hex}-vnet"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   location            = "${azurerm_resource_group.rg.location}"
   address_space       = ["10.0.0.0/16"]
@@ -46,14 +46,14 @@ resource "azurerm_virtual_network" "vnet" {
 
 # Create subnets
 resource "azurerm_subnet" "frontend" {
-  name                 = "${var.tag_contact}-${var.tag_application}-frontend-subnet"
+  name                 = "chef-automate-${random_id.instance_id.hex}-frontend-subnet"
   resource_group_name  = "${azurerm_resource_group.rg.name}"
   virtual_network_name = "${azurerm_virtual_network.vnet.name}"
   address_prefix       = "10.0.10.0/24"
 }
 
 resource "azurerm_subnet" "backend" {
-  name                 = "${var.tag_contact}-${var.tag_application}-backend-subnet"
+  name                 = "chef-automate-${random_id.instance_id.hex}-backend-subnet"
   resource_group_name  = "${azurerm_resource_group.rg.name}"
   virtual_network_name = "${azurerm_virtual_network.vnet.name}"
   address_prefix       = "10.0.20.0/24"

@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "automate_lb_pip" {
-  name                = "${var.tag_contact}-${var.tag_application}-pip"
+  name                = "chef-automate-lb-${random_id.instance_id.hex}-pip"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   location            = "${azurerm_resource_group.rg.location}"
   sku                 = "Standard"

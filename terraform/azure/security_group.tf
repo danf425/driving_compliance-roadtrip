@@ -1,6 +1,6 @@
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "chef_automate" {
-  name                = "${var.tag_contact}-${var.tag_application}-sg"
+  name                = "chef-automate-${random_id.instance_id.hex}-sg"
   location            = "${azurerm_resource_group.rg.location}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
 

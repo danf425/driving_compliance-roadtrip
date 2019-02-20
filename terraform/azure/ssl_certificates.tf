@@ -8,7 +8,7 @@ resource "tls_private_key" "private_key" {
 
 resource "acme_registration" "reg" {
   account_key_pem = "${tls_private_key.private_key.private_key_pem}"
-  email_address   = "${var.tag_contact}@chef.io"
+  email_address   = "${var.tag_contact}"
 }
 
 resource "acme_certificate" "automate_cert" {

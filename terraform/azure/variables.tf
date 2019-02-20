@@ -1,7 +1,6 @@
 ////////////////////////////////
 // Azure Connection
 
-
 variable "azure_region" {
   default = "West US"
   description = "The Azure region where we will build resources and instances"

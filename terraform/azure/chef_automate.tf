@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "automate_pip" {
-  name                = "${var.tag_contact}-automate-pip"
+  name                = "chef--automate-${random_id.instance_id.hex}-pip"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   location            = "${azurerm_resource_group.rg.location}"
   sku                 = "Standard"
@@ -21,7 +21,7 @@ locals {
 }
 
 resource "azurerm_network_interface" "automate_nic" {
-  name                      = "${var.tag_contact}-${var.tag_application}-automate-nic"
+  name                      = "chef-automate-nic"
   location                  = "${azurerm_resource_group.rg.location}"
   resource_group_name       = "${azurerm_resource_group.rg.name}"
   network_security_group_id = "${azurerm_network_security_group.chef_automate.id}"
