@@ -7,7 +7,7 @@ locals {
 }
 
 resource "google_compute_address" "a2_ext_ip" {
-  name = "a2-ext-ip"
+  name = "a2-ext-ip-${random_id.instance_id.hex}"
   address_type = "EXTERNAL"
 }
 
@@ -38,7 +38,7 @@ resource "google_compute_instance" "a2" {
   }
 
   metadata {
-    sshKeys = "${var.label_contact}:${file("${var.gcp_ssh_public_key}")}"
+    sshKeys = "${var.automate_ssh_username}:${file("${var.gcp_ssh_public_key}")}"
   }
 
   boot_disk {
@@ -62,7 +62,7 @@ resource "google_compute_instance" "a2" {
     content     = "${data.template_file.install_chef_automate_cli.rendered}"
 
     connection {
-      user     = "${var.label_contact}"
+      user     = "${var.automate_ssh_username}"
       private_key = "${file("${var.gcp_ssh_private_key}")}"
     }
   }
@@ -72,7 +72,7 @@ resource "google_compute_instance" "a2" {
     content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : local.full_cert_chain}"
 
     connection {
-      user     = "${var.label_contact}"
+      user     = "${var.automate_ssh_username}"
       private_key = "${file("${var.gcp_ssh_private_key}")}"
     }
   }
@@ -82,7 +82,7 @@ resource "google_compute_instance" "a2" {
     content = "${var.automate_custom_ssl ? var.automate_custom_ssl_private_key : acme_certificate.a2_cert.private_key_pem}"
 
     connection {
-      user     = "${var.label_contact}"
+      user     = "${var.automate_ssh_username}"
       private_key = "${file("${var.gcp_ssh_private_key}")}"
     }
   }
@@ -101,13 +101,13 @@ resource "google_compute_instance" "a2" {
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
       "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
-      "sudo chown ${var.label_contact}:${var.label_contact} $HOME/automate-credentials.toml",
+      "sudo chown ${var.automate_ssh_username}:${var.automate_ssh_username} $HOME/automate-credentials.toml",
       "sudo echo -e api-token = \"$(sudo chef-automate admin-token)\" >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
     ]
 
     connection {
-      user     = "${var.label_contact}"
+      user     = "${var.automate_ssh_username}"
       private_key = "${file("${var.gcp_ssh_private_key}")}"
     }
   }
@@ -127,7 +127,7 @@ data "external" "a2_secrets" {
   depends_on = ["google_compute_instance.a2"]
 
   query = {
-    ssh_user = "${var.label_contact}"
+    ssh_user = "${var.automate_ssh_username}"
     ssh_key  = "${var.gcp_ssh_private_key}"
     a2_ip    = "${google_compute_address.a2_ext_ip.address}"
   }

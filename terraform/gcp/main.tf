@@ -22,7 +22,7 @@ locals {
 }
 
 resource "google_compute_network" "a2_network" {
-  name = "a2-network"
+  name = "a2-network-${random_id.instance_id.hex}"
 }
 
 data "google_compute_subnetwork" "a2_subnetwork" {
@@ -31,7 +31,7 @@ data "google_compute_subnetwork" "a2_subnetwork" {
 
 
 resource "google_compute_firewall" "a2_firewall_ingress" {
-  name      = "a2-firewall-ingress"
+  name      = "a2-firewall-ingress-${random_id.instance_id.hex}"
   network   = "${google_compute_network.a2_network.name}"
   direction = "INGRESS"
 
@@ -46,7 +46,7 @@ resource "google_compute_firewall" "a2_firewall_ingress" {
 }
 
 resource "google_compute_firewall" "a2_firewall_egress" {
-  name      = "a2-firewall-egress"
+  name      = "a2-firewall-egress-${random_id.instance_id.hex}"
   network   = "${google_compute_network.a2_network.name}"
   direction = "EGRESS"
 
@@ -66,7 +66,7 @@ resource "google_compute_firewall" "a2_firewall_egress" {
 }
 
 resource "google_compute_firewall" "a2_firewall_internal" {
-  name      = "a2-firewall-internal"
+  name      = "a2-firewall-internal-${random_id.instance_id.hex}"
   network   = "${google_compute_network.a2_network.name}"
   direction = "INGRESS"
   source_ranges = ["${data.google_compute_subnetwork.a2_subnetwork.ip_cidr_range}"]

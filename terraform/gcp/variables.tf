@@ -62,6 +62,10 @@ variable "automate_hostname" {
   description = "Hostname of the automate server. Will also be used for DNS entry into zone specified below."
 }
 
+variable "automate_ssh_username" {
+  description = "Username of account to create and use for SSH access along with var.gcp_ssh_private_key"
+}
+
 variable "automate_dns_zone_name" {
   description = "GCP-managed DNS zone name in which to register automate_hostname"
 }
@@ -78,6 +82,10 @@ GCP machine type for Automate server
 
 Machine Types:  https://cloud.google.com/compute/docs/machine-types
 EOF
+}
+
+variable "email_address" {
+  description = "E-mail address used to create acme_registration for Let's Encrypt cert generation"
 }
 
 variable "acme_provider_url" {
