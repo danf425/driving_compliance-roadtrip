@@ -1,4 +1,4 @@
-resource "aws_vpc" "habichef-vpc" {
+resource "aws_vpc" "habmgmt-vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = "true"
   enable_dns_hostnames = "true"
@@ -14,38 +14,38 @@ resource "aws_vpc" "habichef-vpc" {
   }
 }
 
-resource "aws_internet_gateway" "habichef-gateway" {
-  vpc_id = "${aws_vpc.habichef-vpc.id}"
+resource "aws_internet_gateway" "habmgmt-gateway" {
+  vpc_id = "${aws_vpc.habmgmt-vpc.id}"
 
   tags {
-    Name = "habichef-gateway"
+    Name = "habmgmt-gateway"
   }
 }
 
-resource "aws_route" "habichef-internet-access" {
-  route_table_id         = "${aws_vpc.habichef-vpc.main_route_table_id}"
+resource "aws_route" "habmgmt-internet-access" {
+  route_table_id         = "${aws_vpc.habmgmt-vpc.main_route_table_id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = "${aws_internet_gateway.habichef-gateway.id}"
+  gateway_id             = "${aws_internet_gateway.habmgmt-gateway.id}"
 }
 
-resource "aws_subnet" "habichef-subnet-a" {
-  vpc_id                  = "${aws_vpc.habichef-vpc.id}"
+resource "aws_subnet" "habmgmt-subnet-a" {
+  vpc_id                  = "${aws_vpc.habmgmt-vpc.id}"
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
   availability_zone = "${var.aws_region}a"
 
   tags {
-    Name = "habichef-subnet-a"
+    Name = "habmgmt-subnet-a"
   }
 }
 
-resource "aws_subnet" "habichef-subnet-b" {
-  vpc_id                  = "${aws_vpc.habichef-vpc.id}"
+resource "aws_subnet" "habmgmt-subnet-b" {
+  vpc_id                  = "${aws_vpc.habmgmt-vpc.id}"
   cidr_block              = "10.0.10.0/24"
   map_public_ip_on_launch = true
   availability_zone = "${var.aws_region}b"
 
   tags {
-    Name = "habichef-subnet-b"
+    Name = "habmgmt-subnet-b"
   }
 }
