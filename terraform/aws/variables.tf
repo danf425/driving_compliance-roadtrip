@@ -17,7 +17,7 @@ variable "aws_credentials_file" {
 }
 
 variable "aws_key_pair_name" {
-  default="habichef_demo"
+  default="habmgmt_demo"
   description = "aws_key_pair_naem is the AWS keypair we will configure on all newly built instances."
 }
 
@@ -131,35 +131,4 @@ variable "automate_custom_ssl_cert_chain" {
 variable "automate_server_instance_type" {
   default = "m4.xlarge"
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
-}
-
-/////////////////////////////////
-// Concourse CI Variables
-
-variable "concourse_db_node_size" {
-  default = "t2.medium"
-  description = "concourse_db_node_size is the AWS instance type to be used for Concourse's dabatase server"
-
-}
-variable "concourse_web_node_size" {
-  default = "t2.medium"
-  description = "concourse_web_node_size is the AWS instance type to be used for Concourse's web server"
-}
-variable "concourse_worker_node_size" {
-  default = "t2.medium"
-  description = "concourse_worker_node_size is the AWS instance type to be used for Concourse's worker server(s)"
-}
-
-variable "concourse_worker_count" {
-  default = "3"
-  description = "concourse_worker_count is the number of concourse worker servers to build. We recommend at least 2."
-}
-
-variable "concourse_user_name" {
-  default = "admin"
-  description = "concourse_user_name is the username which will be used to log in to the concourse web UI"
-}
-variable "concourse_user_password" {
-  default = "O3OKE47ZhPeYUad9kXcRgD!v"
-  description = "concourse_password is the password which will be used to log in to the concourse web UI"
 }

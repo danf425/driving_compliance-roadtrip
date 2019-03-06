@@ -1,7 +1,7 @@
 resource "aws_security_group" "chef_automate" {
   name        = "chef_automate_${random_id.instance_id.hex}"
   description = "Chef Automate Server"
-  vpc_id      = "${aws_vpc.habichef-vpc.id}"
+  vpc_id      = "${aws_vpc.habmgmt-vpc.id}"
 
   tags {
     Name          = "${var.tag_customer}-${var.tag_project}_${random_id.instance_id.hex}_${var.tag_application}_security_group"
@@ -156,7 +156,7 @@ resource "aws_instance" "chef_automate" {
   ami                    = "${var.aws_ami_id == "" ? data.aws_ami.ubuntu.id : var.aws_ami_id}"
   instance_type          = "${var.automate_server_instance_type}"
   key_name               = "${var.aws_key_pair_name}"
-  subnet_id              = "${aws_subnet.habichef-subnet-a.id}"
+  subnet_id              = "${aws_subnet.habmgmt-subnet-a.id}"
   vpc_security_group_ids = ["${aws_security_group.chef_automate.id}"]
   ebs_optimized          = true
 
