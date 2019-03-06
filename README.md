@@ -1,16 +1,15 @@
 # Habitat Managed Demo
 This repo is designed to provide a fast way to spin up a demo environment for demonstrating the business outcomes our target market can achieve with the Habitat Managed Chef and Habitat Managed Inspec patterns.
 
-*NOTE: This demo currently only supports linux
-
 ## Requirements
 - [ChefDK or Chef Workstation](https://downloads.chef.io)
 - [Terraform](https://terraform.io)
+- [jq](https://stedolan.github.io/jq/)
 - AWS Account in the Chef SA Organization (for SSL certificates)
 - Automate 2 License
 
 ## Habitat Managed Inspec and Habitat Managed Chef
-Before you begin you will need to build both a Habitat Managed Inspec and a [Habitat Managed Chef]() package. Before launching an environment you should have both a `<your_origin>/linux_baseline` and a `<your_origin>/chef-base` package built and uploaded to the public depot, and promoted to `stable`
+Before you begin you will need to build both a [Habitat Managed Inspec](https://github.com/chef/habitat_managed_inspec) and a [Habitat Managed Chef](https://github.com/chef/habitat_managed_chef) package for the platform you plan to demo. If you do not have a packages built you can spin this up by using the default origin of `chef-demo` which has packages already built for both Linux and Windows in the `stable` channel.
 
 ## Provision Automate 2 (AWS)
 The terraform code in this repo allows you to provision a Chef Automate 2.0 instance in AWS. The terraform code creates a Route53 entry for your automate instance that is dynamically driven from a `tfvars` file (i.e. `my-automate.chef-demo.com`). Additionally the code will create an application load balancer with a valid ssl certificate for your domain, which currently required for Habitat Managed Chef and Habitat Managed Inspec.
@@ -141,7 +140,7 @@ scottford$ cd ../terraform/aws/
 scottford$ terraform destroy
 random_id.instance_id: Refreshing state... (ID: y8h0Aw)
 data.template_file.install_chef_automate_cli: Refreshing state...
-aws_vpc.habichef-vpc: Refreshing state... (ID: vpc-0d1dc85af12d41cef)
+aws_vpc.habmgmt-vpc: Refreshing state... (ID: vpc-0d1dc85af12d41cef)
 data.aws_route53_zone.selected: Refreshing state...
 data.aws_acm_certificate.chef_automate: Refreshing state...
 ```

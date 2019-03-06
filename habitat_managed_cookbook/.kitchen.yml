@@ -17,8 +17,11 @@ platforms:
     vm_hostname: centos7.local
 - name: windows-2016
   driver:
-    box: tas50/windows_2016
     vm_hostname: windows2016.local
+    box: chef/windows-server-2016-standard
+    customize:
+      cpus: 2
+      memory: 1024
 - name: windows-2012r2
   driver:
     box: tas50/windows_2012r2

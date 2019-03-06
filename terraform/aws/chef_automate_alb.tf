@@ -3,7 +3,7 @@ resource "aws_lb" "chef_automate" {
   name               = "chef-automate-${random_id.instance_id.hex}"
   internal           = "false"
   security_groups    = ["${aws_security_group.chef_automate.id}"]
-  subnets            = ["${aws_subnet.habichef-subnet-a.id}","${aws_subnet.habichef-subnet-b.id}"]
+  subnets            = ["${aws_subnet.habmgmt-subnet-a.id}","${aws_subnet.habmgmt-subnet-b.id}"]
   tags               = {
     Name               = "${var.tag_customer}-${var.tag_project}_${random_id.instance_id.hex}_${var.tag_application}_alb"
     X-Dept             = "${var.tag_dept}"
@@ -17,10 +17,10 @@ resource "aws_lb" "chef_automate" {
 
 resource "aws_lb_target_group" "chef_automate" {
   name                 = "${random_id.instance_id.hex}"
-  vpc_id               = "${aws_vpc.habichef-vpc.id}"
+  vpc_id               = "${aws_vpc.habmgmt-vpc.id}"
   port                 = "443"
   protocol             = "HTTPS"
-  
+
   depends_on = ["aws_lb.chef_automate"]
 
   lifecycle {
