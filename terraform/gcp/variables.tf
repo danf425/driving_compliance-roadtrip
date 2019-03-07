@@ -118,3 +118,7 @@ variable "automate_channel" {
   description = "Release channel subscription for automate install and updates"
 
 }
+
+variable "origin" {
+  description = "habitat  origin to use"
+}

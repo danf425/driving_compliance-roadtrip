@@ -130,5 +130,7 @@ data "external" "a2_secrets" {
     ssh_user = "${var.automate_ssh_username}"
     ssh_key  = "${var.gcp_ssh_private_key}"
     a2_ip    = "${google_compute_address.a2_ext_ip.address}"
+    out_path = "${path.root}"
+    origin   = "${var.origin}"
   }
 }
