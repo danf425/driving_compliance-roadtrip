@@ -20,12 +20,18 @@ The terraform code in this repo allows you to provision a Chef Automate 2.0 inst
 
 At the end of the `terraform` run you will see the credentials for your automate instance in the `STDOUT` as follows:
 
-```
+```bash
 ...
-aws_instance.chef_automate (remote-exec): url = "https://scottford-a2.chef-demo.com"
-aws_instance.chef_automate (remote-exec): username = "admin"
-aws_instance.chef_automate (remote-exec): password = "d7edd228be6a80b9f213163dac12f2a2"
-aws_instance.chef_automate (remote-exec): api-token = LxEm-t58OUx5rOT-IajSUpPNzpc=
+Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+a2_admin = admin
+a2_admin_password = 04f19f4b10bef9f5d530baefefe13dce
+a2_token = apVi6pvZafjyz1og28DtDOOch5c=
+a2_url = https://jmery-a2.gcp.chef-demo.com
+chef_automate_public_ip = 35.185.226.203
+chef_automate_url = https://jmery-a2.gcp.chef-demo.com
 ```
 
 You will need those credentials to both login and update your Habitat Managed packages
