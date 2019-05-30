@@ -3,7 +3,9 @@
 # Recipe:: default
 #
 # Copyright:: 2019, The Authors, All Rights Reserved.
-hab_install
+hab_install do
+  license 'accept'
+end
 
 hab_sup 'default'
 
