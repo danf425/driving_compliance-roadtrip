@@ -39,19 +39,13 @@ You will need those credentials to both login and update your Habitat Managed pa
 ## Habitat Managed Cookbook
 The Habitat Managed Cookbook provides an easy way to provision instances on your local workstation that will check into the Chef Automate instance in the previous step for Habitat Managed Demos.
 
-### Update Environment Variables
-Copy `habitat_managed_cookbook/attributes.env.example` to `attributes.env` and update the contents with the server_url and token of your automate instance, and your habitat origin:
+### Set Environment Variables
+When your `terraform apply` has completed successfully, a file called `attributes.env` will have been created in the `cwd` where you ran `terraform apply`.  This `.env` file has been updated with the correct values for this new environment.
 
-```
-HAB_ORIGIN=scottford
-SERVER_URL=https://scottford-a2.chef-demo.com/data-collector/v0
-TOKEN=LxEm-t58OUx5rOT-IajSUpPNzpc=
-```
-
-Run `source attributes.env` to add those environment variables to your current shell
+Run `source attributes.env` to add/update the required environment variables to your current shell.
 
 ### Demo
-The Habitat Managed Cookbook provides a `recipes/default.rb` that will execute either the `linux.rb` or `windows.rb` recipes based off of the platform you are converging (NOTE: Only Linux is supported at this point)
+The Habitat Managed Cookbook provides a `recipes/default.rb` that will execute either the `linux.rb` or `windows.rb` recipes based off of the platform you are converging.
 
 Inside the `recipes/linux.rb` you will see that lines 13-42 are commented out by default. This is intentional to allow you to walk the customer through the pattern of adding each package individually. On the first converge you will simply have habitat installed and running as a service in the background.
 
@@ -144,5 +138,3 @@ aws_vpc.habmgmt-vpc: Refreshing state... (ID: vpc-0d1dc85af12d41cef)
 data.aws_route53_zone.selected: Refreshing state...
 data.aws_acm_certificate.chef_automate: Refreshing state...
 ```
-
-

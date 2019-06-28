@@ -231,5 +231,7 @@ data "external" "a2_secrets" {
     ssh_user = "${var.platform}"
     ssh_key  = "${var.aws_key_pair_file}"
     a2_ip    = "${aws_instance.chef_automate.public_ip}"
+    out_path = "${path.root}"
+    origin   = "${var.origin}"
   }
 }

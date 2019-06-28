@@ -170,5 +170,7 @@ data "external" "a2_secrets" {
     ssh_user = "${var.azure_image_user}"
     ssh_key  = "${var.azure_private_key_path}"
     a2_ip    = "${azurerm_public_ip.automate_pip.ip_address}"
+    out_path = "${path.root}"
+    origin   = "${var.origin}"
   }
 }

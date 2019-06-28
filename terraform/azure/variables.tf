@@ -79,7 +79,6 @@ variable "azure_image_password" {
 }
 
 variable "origin" {
-  default = ""
   description = "Habitat package origin"
 }
 

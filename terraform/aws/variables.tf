@@ -31,7 +31,7 @@ variable "aws_ami_id" {
 }
 
 variable "origin" {
-  default = ""
+  description = "habitat origin to use for packages in the habitat_managed_cookbook"
 }
 
 
