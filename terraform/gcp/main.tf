@@ -1,3 +1,7 @@
+terraform {
+  required_version = "~> 0.11"
+}
+
 provider "google" {
  credentials = "${file("${var.gcp_credentials_file}")}"
  project = "${var.gcp_project}"
