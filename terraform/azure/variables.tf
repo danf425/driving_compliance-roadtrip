@@ -92,7 +92,7 @@ variable "channel" {
 }
 
 variable "automate_license" {
-  default = "Contact Chef Sales at sales@chef.io to request a license."
+  default = ""
   description = "automate_license is the license key for your A2 installation"
 }
 
