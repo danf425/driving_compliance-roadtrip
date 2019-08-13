@@ -49,9 +49,9 @@ resource "azurerm_network_interface_backend_address_pool_association" "automate_
   backend_address_pool_id = "${azurerm_lb_backend_address_pool.backend_pool.id}"
 }
 
-data "template_file" "install_chef_automate_cli" {
-  template = "${file("${path.module}/templates/chef_automate/install_chef_automate_cli.sh.tpl")}"
-}
+# data "template_file" "install_gzip" {
+#   template = "${file("${path.module}/templates/chef_automate/install_gzip.sh.tpl")}"
+# }
 
 locals {
   full_cert_chain = "${acme_certificate.automate_cert.certificate_pem}${acme_certificate.automate_cert.issuer_pem}"
@@ -107,10 +107,10 @@ resource "azurerm_virtual_machine" "chef_automate" {
     storage_uri = "${azurerm_storage_account.stor.primary_blob_endpoint}"
   }
 
-  provisioner "file" {
-    destination = "/tmp/install_chef_automate_cli.sh"
-    content     = "${data.template_file.install_chef_automate_cli.rendered}"
-  }
+  # provisioner "file" {
+  #   destination = "/tmp/install_gzip.sh"
+  #   content     = "${data.template_file.install_gzip.rendered}"
+  # }
 
   provisioner "file" {
     destination = "/tmp/ssl_cert"
@@ -126,16 +126,16 @@ resource "azurerm_virtual_machine" "chef_automate" {
     inline = [
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo sysctl -w vm.dirty_expire_centisecs=20000",
-      "curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
-      "sudo chmod +x /tmp/install_chef_automate_cli.sh",
-      "sudo bash /tmp/install_chef_automate_cli.sh",
-      "sudo ./chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
+      "sudo curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
+      "sudo mv chef-automate /usr/sbin/chef-automate",
+      "sudo mkdir -p /etc/chef-automate",
+      "sudo chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
       "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${var.automate_hostname}.${var.automate_app_gateway_dns_zone}\"/g' /tmp/config.toml",
       "sudo sed -i 's/channel = \".*\"/channel = \"${var.channel}\"/g' /tmp/config.toml",
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
-      "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
+      "sudo chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
       "sudo chown ${var.azure_image_user}:${var.azure_image_user} $HOME/automate-credentials.toml",
       "sudo echo -e api-token = \"$(sudo chef-automate admin-token)\" >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",

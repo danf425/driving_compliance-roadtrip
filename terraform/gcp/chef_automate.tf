@@ -1,7 +1,3 @@
-data "template_file" "install_chef_automate_cli" {
-  template = "${file("${path.module}/templates/chef_automate/install_chef_automate_cli.sh.tpl")}"
-}
-
 locals {
   full_cert_chain = "${acme_certificate.a2_cert.certificate_pem}${acme_certificate.a2_cert.issuer_pem}"
 }
@@ -58,16 +54,6 @@ resource "google_compute_instance" "a2" {
   }
 
   provisioner "file" {
-    destination = "/tmp/install_chef_automate_cli.sh"
-    content     = "${data.template_file.install_chef_automate_cli.rendered}"
-
-    connection {
-      user     = "${var.automate_ssh_username}"
-      private_key = "${file("${var.gcp_ssh_private_key}")}"
-    }
-  }
-
-  provisioner "file" {
     destination = "/tmp/ssl_cert"
     content = "${var.automate_custom_ssl ? var.automate_custom_ssl_cert_chain : local.full_cert_chain}"
 
@@ -91,16 +77,16 @@ resource "google_compute_instance" "a2" {
     inline = [
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo sysctl -w vm.dirty_expire_centisecs=20000",
-      "curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
-      "sudo chmod +x /tmp/install_chef_automate_cli.sh",
-      "sudo bash /tmp/install_chef_automate_cli.sh",
-      "sudo ./chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
+      "sudo curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
+      "sudo mv chef-automate /usr/sbin/chef-automate",
+      "sudo mkdir -p /etc/chef-automate",
+      "sudo chef-automate init-config --file /tmp/config.toml --certificate /tmp/ssl_cert --private-key /tmp/ssl_key",
       "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${local.fqdn}\"/g' /tmp/config.toml",
       "sudo sed -i 's/channel = \".*\"/channel = \"${var.automate_channel}\"/g' /tmp/config.toml",
       "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
       "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
-      "sudo ./chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
+      "sudo chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
       "sudo chown ${var.automate_ssh_username}:${var.automate_ssh_username} $HOME/automate-credentials.toml",
       "sudo echo -e api-token = \"$(sudo chef-automate admin-token)\" >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
