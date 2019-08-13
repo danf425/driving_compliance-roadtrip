@@ -55,6 +55,7 @@ variable "label_ttl" {
 // Automate Variables
 
 variable "automate_license" {
+  default = ""
   description = "License for Automate"
 }
 
