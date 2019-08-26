@@ -105,6 +105,12 @@ variable "automate_app_gateway_dns_zone" {
   description = "Matcher to find the Azure DNS zone"
 }
 
+variable "automate_app_gateway_dns_zone_rg" {
+  default = "azure-dns-rg"
+  description = "Azure Resource Group that contains the zone specified in var.automate_app_gateway_dns_zone"
+}
+
+
 variable "acme_provider_url" {
   default = "https://acme-staging-v02.api.letsencrypt.org/directory"
   description = <<EOF

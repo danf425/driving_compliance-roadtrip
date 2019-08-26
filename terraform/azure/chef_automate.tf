@@ -11,7 +11,7 @@ resource "azurerm_public_ip" "automate_pip" {
 resource "azurerm_dns_a_record" "automate_dns" {
   name                = "${var.automate_hostname}-fe"
   zone_name           = "${var.automate_app_gateway_dns_zone}"
-  resource_group_name = "azure-dns-rg"
+  resource_group_name = "${var.automate_app_gateway_dns_zone_rg}"
   ttl                 = 300
   records             = ["${azurerm_public_ip.automate_pip.ip_address}"]
 }

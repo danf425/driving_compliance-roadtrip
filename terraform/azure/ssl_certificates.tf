@@ -24,7 +24,7 @@ resource "acme_certificate" "automate_cert" {
       AZURE_CLIENT_SECRET   = "${var.azure_client_secret}"
       AZURE_SUBSCRIPTION_ID = "${var.azure_sub_id}"
       AZURE_TENANT_ID       = "${var.azure_tenant_id}"
-      AZURE_RESOURCE_GROUP  = "azure-dns-rg"
+      AZURE_RESOURCE_GROUP  = "${var.automate_app_gateway_dns_zone_rg}"
     }
   }
 }
