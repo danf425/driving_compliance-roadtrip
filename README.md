@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Habitat Managed Demo
 
 This repo is designed to provide a fast way to spin up a demo environment for demonstrating the business outcomes our target market can achieve with the Habitat Managed Chef and Habitat Managed Inspec patterns.
@@ -161,3 +162,6 @@ aws_vpc.habmgmt-vpc: Refreshing state... (ID: vpc-0d1dc85af12d41cef)
 data.aws_route53_zone.selected: Refreshing state...
 data.aws_acm_certificate.chef_automate: Refreshing state...
 ```
+=======
+# driving-compliance-roadtrip
+>>>>>>> 66d199c003f122331b3c82ca925a34ac36c872ec
