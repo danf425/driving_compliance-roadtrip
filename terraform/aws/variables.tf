@@ -104,12 +104,12 @@ variable "automate_license" {
 }
 
 variable "automate_alb_acm_matcher" {
-  default = "*.chef-demo.com"
+  default = "*.workshops.learn.chef.io"
   description = "Matcher to look up the ACM cert for the ALB (when using chef_automate_alb.tf"
 }
 
 variable "automate_alb_r53_matcher" {
-  default = "chef-demo.com."
+  default = "workshops.learn.chef.io."
   description = "Matcher to find the r53 zone"
 }
 
@@ -131,4 +131,9 @@ variable "automate_custom_ssl_cert_chain" {
 variable "automate_server_instance_type" {
   default = "m4.xlarge"
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
+}
+
+variable "student_count" {
+  default = "1"
+  description = "number of student accounts needed in Chef Automate"
 }

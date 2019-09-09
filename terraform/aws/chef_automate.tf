@@ -222,3 +222,18 @@ data "external" "a2_secrets" {
     origin   = "${var.origin}"
   }
 }
+
+data "external" "create_users" {
+  program = ["bash", "${path.module}/data-sources/create-users.sh"]
+  depends_on = ["aws_instance.chef_automate"]
+
+  query = {
+    ssh_user = "${var.platform}"
+    ssh_key  = "${var.aws_key_pair_file}"
+    a2_ip    = "${aws_instance.chef_automate.public_ip}"
+    out_path = "${path.root}"
+    origin   = "${var.origin}"
+    a2_url   = "${var.automate_hostname}"
+    count    = "${var.student_count}"
+  }
+}
