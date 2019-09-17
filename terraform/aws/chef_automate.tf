@@ -177,6 +177,10 @@ resource "aws_instance" "chef_automate" {
     destination = "/tmp/ssl_key"
     content = "${var.automate_custom_ssl_private_key}"
   }
+  provisioner "file" {
+    source = "data-sources/create-users.sh"
+    destination = "/tmp/create-users.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -196,6 +200,12 @@ resource "aws_instance" "chef_automate" {
       "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
       "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
+      "sudo echo \"127.0.0.1 ${var.automate_hostname}\" | sudo tee -a /etc/hosts",
+      "export A2_HOSTNAME=${var.automate_hostname}",
+      "export USER_COUNT=${var.user_count}",
+      "export USER_PASSWORD=${var.user_password}",
+      "sudo chmod +x /tmp/create-users.sh",
+      "/tmp/create-users.sh",
     ]
   }
 
@@ -208,6 +218,7 @@ resource "aws_instance" "chef_automate" {
     // Write ssh key for Automate server to local known_hosts so we can scp automate-credentials.toml in data.external.a2_secrets
     command = "ssh-keyscan -t ecdsa ${aws_instance.chef_automate.public_ip} >> ~/.ssh/known_hosts"
   }
+
 }
 
 data "external" "a2_secrets" {
@@ -220,20 +231,5 @@ data "external" "a2_secrets" {
     a2_ip    = "${aws_instance.chef_automate.public_ip}"
     out_path = "${path.root}"
     origin   = "${var.origin}"
-  }
-}
-
-data "external" "create_users" {
-  program = ["bash", "${path.module}/data-sources/create-users.sh"]
-  depends_on = ["aws_instance.chef_automate"]
-
-  query = {
-    ssh_user = "${var.platform}"
-    ssh_key  = "${var.aws_key_pair_file}"
-    a2_ip    = "${aws_instance.chef_automate.public_ip}"
-    out_path = "${path.root}"
-    origin   = "${var.origin}"
-    a2_url   = "${var.automate_hostname}"
-    count    = "${var.student_count}"
   }
 }
