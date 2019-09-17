@@ -34,6 +34,13 @@ variable "origin" {
   description = "habitat origin to use for packages in the habitat_managed_cookbook"
 }
 
+variable "user_count" {
+  description = "number of automate users to add, format user$user_count"
+}
+
+variable "user_password" {
+  description = "password for all automate user accounts"
+}
 
 ////////////////////////////////
 // Object Tags
@@ -131,9 +138,4 @@ variable "automate_custom_ssl_cert_chain" {
 variable "automate_server_instance_type" {
   default = "m4.xlarge"
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
-}
-
-variable "student_count" {
-  default = "1"
-  description = "number of student accounts needed in Chef Automate"
 }
