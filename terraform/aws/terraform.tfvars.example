@@ -41,3 +41,11 @@ automate_license = <YOUR AUTOMATE LICENSE>
 
 automate_alb_acm_matcher = "*.chef-demo.com"
 automate_alb_r53_matcher = "chef-demo.com."
+
+// number of automate users to add
+
+user_count = 40
+
+// common password for all automate users
+
+user_password = "LCRr0@dtr1p"
