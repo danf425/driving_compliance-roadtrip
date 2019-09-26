@@ -1,0 +1,6 @@
+{
+    "files.eol": "\n",
+    "terminal.integrated.shellArgs.linux": [
+        "-l"
+    ]
+}

@@ -1,0 +1,7 @@
+{
+  "files.eol": "\n",
+  "terminal.integrated.shellArgs.linux": [
+    "-l"
+  ],
+  "workbench.colorTheme": "Default Light+"
+}
