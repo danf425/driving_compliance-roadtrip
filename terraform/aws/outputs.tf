@@ -21,3 +21,7 @@ output "a2_token" {
 output "a2_url" {
   value = "${data.external.a2_secrets.result["a2_url"]}"
 }
+
+output "workstation_ips" {
+  value = "${aws_instance.workstation.*.public_ip}"
+}
