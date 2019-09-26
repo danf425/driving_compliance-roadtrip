@@ -202,8 +202,8 @@ resource "aws_instance" "chef_automate" {
       "sudo cat $HOME/automate-credentials.toml",
       "sudo echo \"127.0.0.1 ${var.automate_hostname}\" | sudo tee -a /etc/hosts",
       "export A2_HOSTNAME=${var.automate_hostname}",
-      "export USER_COUNT=${var.user_count}",
-      "export USER_PASSWORD=${var.user_password}",
+      "export USER_COUNT=${var.automate_user_count}",
+      "export USER_PASSWORD=${var.automate_user_password}",
       "sudo chmod +x /tmp/create-users.sh",
       "/tmp/create-users.sh",
     ]
