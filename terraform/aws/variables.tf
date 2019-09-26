@@ -34,14 +34,6 @@ variable "origin" {
   description = "habitat origin to use for packages in the habitat_managed_cookbook"
 }
 
-variable "user_count" {
-  description = "number of automate users to add, format user$user_count"
-}
-
-variable "user_password" {
-  description = "password for all automate user accounts"
-}
-
 ////////////////////////////////
 // Object Tags
 
@@ -138,4 +130,50 @@ variable "automate_custom_ssl_cert_chain" {
 variable "automate_server_instance_type" {
   default = "m4.xlarge"
   description = "automate_server_instance_type is the AWS instance type to be used for A2"
+}
+
+variable "automate_user_count" {
+  description = "number of automate users to add, format user$user_count. Usually matches workstation_count, number of workstations to create"
+}
+
+variable "automate_user_password" {
+  description = "password for all automate user accounts"
+}
+
+////////////////////////////////
+// Habitat Workstation
+
+variable "workstation_ami_owner" {
+  # type        = string
+  description = "Amazon Owner ID for filtering AMI given by ami_filter"
+  default     = "446539779517"
+}
+
+variable "workstation_user" {
+  description = "SSH User for AMI given by ami_filter"
+  default     = "centos"
+}
+
+variable "workstation_user_password" {
+  description = "SSH User password for AMI given by ami_filter"
+  default     = "Cod3Can!"
+}
+
+variable "code_server_password" {
+  description = "Password for VSCode Browser WebUI, usually same as workstation_user_password"
+  default     = "Cod3Can!"
+}
+
+variable "workstation_type" {
+  description = "Instance type for the application, eg. m4.large"
+  default     = "t2.large"
+}
+
+variable "workstation_count" {
+  description = "Number of workstation (student) instances to create. Usually matches user_count for number of Automate users to add."
+}
+
+variable "workstation_volume_size" {
+  description = "Size in GB of instance main volume"
+  default     = "8"
 }
