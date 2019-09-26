@@ -44,8 +44,20 @@ automate_alb_r53_matcher = "workshops.learn.chef.io."
 
 // number of automate users to add
 
-user_count = "40"
+automate_user_count = "3"
 
 // common password for all automate users
 
-user_password = "LCRr0@dtr1p"
+automate_user_password = "LCRr0@dtr1p"
+
+// number of student worksations to provision, usually same as user_count
+
+workstation_count = "3"
+
+// common password for all workstations, user chef
+
+workstation_user_password = "Cod3Can!"
+
+// VSCode Server WebUI password, usually same as workstation_user_password
+
+code_server_password = "Cod3Can!"
