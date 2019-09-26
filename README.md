@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Habitat Managed Demo
 
 This repo is designed to provide a fast way to spin up a demo environment for demonstrating the business outcomes our target market can achieve with the Habitat Managed Chef and Habitat Managed Inspec patterns.
