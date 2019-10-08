@@ -7,6 +7,9 @@ curl http://archives.fedoraproject.org/pub/archive/fedora/linux/updates/28/Every
 curl http://archives.fedoraproject.org/pub/archive/fedora/linux/updates/28/Everything/x86_64/Packages/g/glibc-langpack-en-2.27-38.fc28.x86_64.rpm -o /tmp/glibc-langpack-en-2.27-38.fc28.x86_64.rpm
 sudo rpm -ivh --force /tmp/*.rpm
 
+# rebuild rpm database
+sudo rpm --rebuilddb
+
 # Download and install Code Server
 curl -L https://github.com/cdr/code-server/releases/download/1.939-vsc1.33.1/code-server1.939-vsc1.33.1-linux-x64.tar.gz -o /tmp/code-server1.939-vsc1.33.1-linux-x64.tar.gz
 tar xf /tmp/code-server1.939-vsc1.33.1-linux-x64.tar.gz -C /tmp
