@@ -2,23 +2,11 @@
 
 set -eu -o pipefail
 
-# export workstation_password
-
 # Yum Update, Install Tree
 sudo yum update --assumeyes --quiet
-# sudo yum install --assumeyes --quiet tree yum-utils
-# sudo yum install --assumeyes --quiet tree yum-utils epel-release
-# if ! rpm -qa | grep -qw glibc-static; then
-#     yum install glibc-static
-# fi
 
-# Install modern Git
-# sudo rpm -U https://centos7.iuscommunity.org/ius-release.rpm
-# sudo yum install --assumeyes --quiet git2u-all
+# Start Docker
 
-# Install Docker
-# sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-# sudo yum install --assumeyes --quiet tree yum-utils device-mapper-persistent-data lvm2 docker-ce
 sudo systemctl enable docker
 sudo systemctl start docker
 
