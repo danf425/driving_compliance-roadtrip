@@ -5,6 +5,12 @@ set -eu -o pipefail
 # Yum Update, Install Tree
 sudo yum update --assumeyes --quiet
 
+# Add nano editor
+sudo yum install nano --assumeyes --quiet
+
+# Install latest version of Chef Workstation
+curl -LO https://omnitruck.chef.io/install.sh && sudo bash ./install.sh -P chef-workstation && rm install.sh
+
 # Start Docker
 
 sudo systemctl enable docker
