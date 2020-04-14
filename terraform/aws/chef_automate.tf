@@ -200,7 +200,7 @@ resource "aws_instance" "chef_automate" {
       "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
       "sudo chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
       "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
-      "sudo echo -e \"api-token =\" $(sudo chef-automate admin-token) >> $HOME/automate-credentials.toml",
+      "sudo echo -e \"api-token =\" $(sudo chef-automate iam token create demo --admin) >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
       "sudo echo \"127.0.0.1 ${var.automate_hostname}\" | sudo tee -a /etc/hosts",
       "export A2_HOSTNAME=${var.automate_hostname}",
@@ -234,4 +234,3 @@ data "external" "a2_secrets" {
     origin   = var.origin
   }
 }
-
