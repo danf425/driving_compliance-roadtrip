@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Download and install Code Server
-curl -L https://github.com/cdr/code-server/releases/download/2.1698/code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz -o /tmp/code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz
-tar xf /tmp/code-server2.1698-vsc1.41.1-linux-x86_64.tar.gz -C /tmp
-sudo mv /tmp/code-server2.1698-vsc1.41.1-linux-x86_64/code-server /usr/local/bin/
+curl -L https://github.com/cdr/code-server/releases/download/3.1.1/code-server-3.1.1-linux-x86_64.tar.gz -o /tmp/code-server-3.1.1-linux-x86_64.tar.gz
+tar xf /tmp/code-server-3.1.1-linux-x86_64.tar.gz -C /tmp
+sudo mv /tmp/code-server-3.1.1-linux-x86_64/ /usr/local/bin/code-server/
 
 # Install Code Server service
 sudo mv /tmp/code-server.service /etc/systemd/system/code-server.service
