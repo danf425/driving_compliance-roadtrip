@@ -221,8 +221,8 @@ resource "aws_instance" "chef_automate" {
       "sleep 60",
       "sudo chef-automate config patch /tmp/automate-eas-config.toml",
       "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
-      "sudo echo -e \"api-token =\" $(sudo chef-automate iam token create admin --admin) >> $HOME/automate-credentials.toml",
-      "a2apitoken=`sudo chef-automate iam token create admin --admin`",
+      "export API_TOKEN=$(sudo chef-automate iam token create demo --admin)",
+      "sudo echo -e \"api-token =\" $API_TOKEN >> $HOME/automate-credentials.toml",
       "sudo cat $HOME/automate-credentials.toml",
       "sudo chef-automate iam upgrade-to-v2",
       "sudo echo \"127.0.0.1 ${var.automate_hostname}\" | sudo tee -a /etc/hosts",
@@ -257,4 +257,3 @@ data "external" "a2_secrets" {
     origin   = var.origin
   }
 }
-
