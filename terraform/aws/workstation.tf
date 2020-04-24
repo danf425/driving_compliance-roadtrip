@@ -150,6 +150,7 @@ resource "aws_instance" "workstation" {
     inline = [
       "chmod +x /tmp/provision-workstation.sh",
       "/tmp/provision-workstation.sh ${var.workstation_user_password}",
+      "sudo docker run -d -e PASSWORD='Cod3Can!' -p 8080:8080 codercom/code-server:latest",
     ]
     # script = "${format("${path.module}/data-sources/provision-workstation.sh")}"
   }
