@@ -186,22 +186,6 @@ resource "aws_instance" "chef_automate" {
 
   provisioner "remote-exec" {
     inline = [
-      # "sudo hostnamectl set-hostname ${var.automate_hostname}",
-      # "sudo sysctl -w vm.max_map_count=262144",
-      # "sudo sysctl -w vm.dirty_expire_centisecs=20000",
-      # "sudo curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip |gunzip - > chef-automate && chmod +x chef-automate",
-      # "sudo mv chef-automate /usr/sbin/chef-automate",
-      # "sudo mkdir -p /etc/chef-automate",
-      # "sudo chef-automate init-config --file /tmp/config.toml $(if ${var.automate_custom_ssl}; then echo '--certificate /tmp/ssl_cert --private-key /tmp/ssl_key'; fi)",
-      # "sudo sed -i 's/fqdn = \".*\"/fqdn = \"${var.automate_hostname}\"/g' /tmp/config.toml",
-      # "sudo sed -i 's/channel = \".*\"/channel = \"${var.channel}\"/g' /tmp/config.toml",
-      # "sudo sed -i 's/license = \".*\"/license = \"${var.automate_license}\"/g' /tmp/config.toml",
-      # "sudo rm -f /tmp/ssl_cert /tmp/ssl_key",
-      # "sudo mv /tmp/config.toml /etc/chef-automate/config.toml",
-      # "sudo chef-automate deploy /etc/chef-automate/config.toml --accept-terms-and-mlsa",
-      # "sudo chown ubuntu:ubuntu $HOME/automate-credentials.toml",
-      # "sudo echo -e \"api-token =\" $(sudo chef-automate iam token create admin --admin) >> $HOME/automate-credentials.toml",
-      # "sudo cat $HOME/automate-credentials.toml",
       "sudo hostnamectl set-hostname ${var.automate_hostname}",
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo sysctl -w vm.dirty_expire_centisecs=20000",
@@ -229,8 +213,8 @@ resource "aws_instance" "chef_automate" {
       "export A2_HOSTNAME=${var.automate_hostname}",
       "export USER_COUNT=${var.workstation_count}",
       "export USER_PASSWORD=${var.automate_user_password}",
-      # "sudo chmod +x /tmp/create-users.sh",
-      # "/tmp/create-users.sh",
+      "sudo chmod +x /tmp/create-users.sh",
+      "/tmp/create-users.sh",
     ]
   }
 
