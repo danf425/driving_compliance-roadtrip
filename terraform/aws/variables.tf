@@ -164,7 +164,7 @@ variable "code_server_password" {
 
 variable "workstation_type" {
   description = "Instance type for the application, eg. m4.large"
-  default     = "t2.large"
+  default     = "t3.medium"
 }
 
 variable "workstation_count" {
