@@ -1,43 +1,29 @@
 ////////////////////////////////
 // AWS Connection
-
-aws_region="us-west-2"
-
+aws_region="us-east-1"
 aws_profile="solutions-architects"
+origin="effortless"
 
-aws_credentials_file="~/.aws/credentials"
-
-aws_key_pair_file = "~/.ssh/jwolfborn_ae.pem"
-
-aws_key_pair_name = "jwolfborn_ae"
-
-origin = "chef-demo"
-
-////////////////////////////////
-// Object Tags
-
-tag_customer="testing"
-
-tag_project="LCRtest"
-
-tag_name="Jody Wolfborn"
-
-tag_dept="Training"
-
-tag_contact="jwolfborn@chef.io"
-
-tag_application="A2"
+aws_key_pair_file = "~/.ssh/dmontanez-aws"
+aws_key_pair_name = "dmontanez-aws"
+tag_customer = "nga-training"
+tag_project = "inspec-jumpstart-workshop"
+tag_name = "dmontanez"
+tag_dept = "sales"
+tag_contact = "dmontanez@chef.io"
+tag_application = "inspec-jumpstart"
 
 ////////////////////////////////
 // Automate Config
 
-automate_hostname="jwolf-a2.chef-demo.com"
-
-
-// NOTE: If you have an acm cert and r53 managed hosted zone, you
-// can use chef_automate_alb.tf.example to build out an ALB with SSL
-// and DNS via R53.
-// ** You do not need to set custom ssl key and chain in this scenario **
-
+automate_hostname = "danfm123-a2.chef-demo.com"
+tag_ttl = 24
+automate_license = ""
 automate_alb_acm_matcher = "*.chef-demo.com"
 automate_alb_r53_matcher = "chef-demo.com."
+automate_custom_ssl = "false"
+automate_user_count = "1"
+automate_user_password = "Cod3Can!"
+workstation_count = "3"
+workstation_user_password = "Cod3Can!"
+code_server_password = "Cod3Can!"
