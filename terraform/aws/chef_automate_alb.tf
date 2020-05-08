@@ -5,13 +5,13 @@ resource "aws_lb" "chef_automate" {
   security_groups    = [aws_security_group.chef_automate.id]
   subnets            = [aws_subnet.habmgmt-subnet-a.id, aws_subnet.habmgmt-subnet-b.id]
   tags = {
-    Name          = "${var.tag_customer}-${var.tag_project}_${random_id.instance_id.hex}_${var.tag_application}_alb"
-    X-Dept        = var.tag_dept
+    Name          = "${var.tag_customer}-${var.X-Project}_${random_id.instance_id.hex}_${var.X-Application}_alb"
+    X-Dept        = var.X-Dept
     X-Customer    = var.tag_customer
-    X-Project     = var.tag_project
-    X-Application = var.tag_application
-    X-Contact     = var.tag_contact
-    X-TTL         = var.tag_ttl
+    X-Project     = var.X-Project
+    X-Application = var.X-Application
+    X-Contact     = var.X-Contact
+    X-TTL         = var.X-TTL
   }
 }
 

@@ -4,13 +4,13 @@ resource "aws_security_group" "chef_automate" {
   vpc_id      = aws_vpc.habmgmt-vpc.id
 
   tags = {
-    Name          = "${var.tag_customer}-${var.tag_project}_${random_id.instance_id.hex}_${var.tag_application}_security_group"
-    X-Dept        = var.tag_dept
+    Name          = "${var.tag_customer}-${var.X-Project}_${random_id.instance_id.hex}_${var.X-Application}_security_group"
+    X-Dept        = var.X-Dept
     X-Customer    = var.tag_customer
-    X-Project     = var.tag_project
-    X-Application = var.tag_application
-    X-Contact     = var.tag_contact
-    X-TTL         = var.tag_ttl
+    X-Project     = var.X-Project
+    X-Application = var.X-Application
+    X-Contact     = var.X-Contact
+    X-TTL         = var.X-TTL
   }
 }
 
@@ -162,12 +162,12 @@ resource "aws_instance" "chef_automate" {
 
   tags = {
     Name          = format("chef_automate_${random_id.instance_id.hex}")
-    X-Dept        = var.tag_dept
+    X-Dept        = var.X-Dept
     X-Customer    = var.tag_customer
-    X-Project     = var.tag_project
-    X-Application = var.tag_application
-    X-Contact     = var.tag_contact
-    X-TTL         = var.tag_ttl
+    X-Project     = var.X-Project
+    X-Application = var.X-Application
+    X-Contact     = var.X-Contact
+    X-TTL         = var.X-TTL
   }
 
   provisioner "file" {

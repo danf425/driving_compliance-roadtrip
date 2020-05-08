@@ -7,17 +7,17 @@ origin="effortless"
 aws_key_pair_file = "~/.ssh/dmontanez-aws"
 aws_key_pair_name = "dmontanez-aws"
 tag_customer = "nga-training"
-tag_project = "inspec-jumpstart-workshop"
-tag_name = "dmontanez"
-tag_dept = "sales"
-tag_contact = "danf@chef.io"
-tag_application = "inspec-jumpstart"
+X-Project = "inspec-jumpstart-workshop"
+X-Name = "dmontanez"
+X-Dept = "sales"
+X-Contact = "danf@chef.io"
+X-Application = "inspec-jumpstart"
 
 ////////////////////////////////
 // Automate Config
 
 automate_hostname = "danfm123-a2.chef-demo.com"
-tag_ttl = 24
+X-TTL = 24
 <<<<<<< HEAD
 automate_license = ""
 =======

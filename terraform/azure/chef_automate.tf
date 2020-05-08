@@ -34,12 +34,12 @@ resource "azurerm_network_interface" "automate_nic" {
   }
 
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }
 
@@ -81,7 +81,7 @@ resource "azurerm_virtual_machine" "chef_automate" {
 
   storage_os_disk {
     name          = "${var.automate_hostname}-fe-${random_id.randomId.hex}-osdisk"
-    vhd_uri       = "${azurerm_storage_account.stor.primary_blob_endpoint}${azurerm_storage_container.storcont.name}/${var.tag_application}-chef_automate-osdisk.vhd"
+    vhd_uri       = "${azurerm_storage_account.stor.primary_blob_endpoint}${azurerm_storage_container.storcont.name}/${var.X-Application}-chef_automate-osdisk.vhd"
     caching       = "ReadWrite"
     create_option = "FromImage"
     disk_size_gb  = "100"
@@ -153,12 +153,12 @@ resource "azurerm_virtual_machine" "chef_automate" {
   }
 
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }
 

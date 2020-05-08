@@ -1,8 +1,8 @@
 resource "aws_security_group" "workstation" {
   name = format(
-    "${var.tag_project}-security-group-${random_id.instance_id.hex}",
+    "${var.X-Project}-security-group-${random_id.instance_id.hex}",
   )
-  description = format("Security group for ${var.tag_project}")
+  description = format("Security group for ${var.X-Project}")
 
   // SSH
   ingress {
@@ -86,7 +86,7 @@ resource "aws_security_group" "workstation" {
   tags = {
     Name       = format("workstation_security-group_${random_id.instance_id.hex}")
     X-Customer = var.tag_customer
-    X-Project  = var.tag_project
+    X-Project  = var.X-Project
   }
 }
 
@@ -160,9 +160,9 @@ resource "aws_instance" "workstation" {
   }
 
   tags = {
-    Name       = format("${var.tag_project}_workstation_${count.index + 1}")
+    Name       = format("${var.X-Project}_workstation_${count.index + 1}")
     X-Customer = var.tag_customer
-    X-Project  = var.tag_project
+    X-Project  = var.X-Project
   }
 }
 

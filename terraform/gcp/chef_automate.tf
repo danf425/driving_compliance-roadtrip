@@ -30,7 +30,7 @@ resource "google_compute_instance" "a2" {
     x-project     = "${var.label_project}"
     x-dept        = "${var.label_dept}"
     x-application = "${var.label_application}"
-    x-ttl         = "${var.label_ttl}"
+    X-TTL         = "${var.label_ttl}"
   }
 
   metadata {

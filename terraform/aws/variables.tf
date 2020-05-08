@@ -41,27 +41,27 @@ variable "tag_customer" {
   description = "tag_customer is the customer tag which will be added to AWS"
 }
 
-variable "tag_project" {
-  description = "tag_project is the project tag which will be added to AWS"
+variable "X-Project" {
+  description = "X-Project is the project tag which will be added to AWS"
 }
 
-variable "tag_name" {
-  description = "tag_name is the name tag which will be added to AWS"
+variable "X-Name" {
+  description = "X-Name is the name tag which will be added to AWS"
 }
 
-variable "tag_dept" {
-  description = "tag_dept is the department tag which will be added to AWS"
+variable "X-Dept" {
+  description = "X-Dept is the department tag which will be added to AWS"
 }
 
-variable "tag_contact" {
-  description = "tag_contact is the contact tag which will be added to AWS"
+variable "X-Contact" {
+  description = "X-Contact is the contact tag which will be added to AWS"
 }
 
-variable "tag_application" {
-  description = "tag_application is the application tag which will be added to AWS"
+variable "X-Application" {
+  description = "X-Application is the application tag which will be added to AWS"
 }
 
-variable "tag_ttl" {
+variable "X-TTL" {
   default = 4
 }
 

@@ -20,12 +20,12 @@ resource "azurerm_resource_group" "rg" {
   location = "${var.azure_region}"
 
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }
 
@@ -37,12 +37,12 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
 
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }
 
@@ -81,12 +81,12 @@ resource "azurerm_storage_account" "stor" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }
 resource "azurerm_storage_container" "storcont" {

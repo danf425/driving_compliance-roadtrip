@@ -4,13 +4,13 @@ resource "aws_vpc" "habmgmt-vpc" {
   enable_dns_hostnames = "true"
 
   tags = {
-    Name          = "${var.tag_name}-vpc"
-    X-Dept        = var.tag_dept
+    Name          = "${var.X-Name}-vpc"
+    X-Dept        = var.X-Dept
     X-Customer    = var.tag_customer
-    X-Project     = var.tag_project
-    X-Contact     = var.tag_contact
-    X-Application = var.tag_application
-    X-TTL         = var.tag_ttl
+    X-Project     = var.X-Project
+    X-Contact     = var.X-Contact
+    X-Application = var.X-Application
+    X-TTL         = var.X-TTL
   }
 }
 

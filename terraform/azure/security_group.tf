@@ -66,11 +66,11 @@ resource "azurerm_network_security_group" "chef_automate" {
 
 
   tags {
-    X-Dept        = "${var.tag_dept}"
+    X-Dept        = "${var.X-Dept}"
     X-Customer    = "${var.tag_customer}"
-    X-Project     = "${var.tag_project}"
-    X-Application = "${var.tag_application}"
-    X-Contact     = "${var.tag_contact}"
-    X-TTL         = "${var.tag_ttl}"
+    X-Project     = "${var.X-Project}"
+    X-Application = "${var.X-Application}"
+    X-Contact     = "${var.X-Contact}"
+    X-TTL         = "${var.X-TTL}"
   }
 }

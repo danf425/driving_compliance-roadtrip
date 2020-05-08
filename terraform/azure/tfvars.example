@@ -14,11 +14,11 @@ azure_private_key_path = "/path/to/ssh/key.pem"
 
 tag_customer = "cust"
 
-tag_project = "proj"
+X-Project = "proj"
 
-tag_dept = "sales"
+X-Dept = "sales"
 
-tag_contact = "me@somewhere.com"
+X-Contact = "me@somewhere.com"
 
 automate_hostname = "jmery-a2"
 
