@@ -10,7 +10,7 @@ tag_customer = "nga-training"
 tag_project = "inspec-jumpstart-workshop"
 tag_name = "dmontanez"
 tag_dept = "sales"
-tag_contact = "dmontanez@chef.io"
+tag_contact = "danf@chef.io"
 tag_application = "inspec-jumpstart"
 
 ////////////////////////////////
@@ -18,7 +18,11 @@ tag_application = "inspec-jumpstart"
 
 automate_hostname = "danfm123-a2.chef-demo.com"
 tag_ttl = 24
+<<<<<<< HEAD
 automate_license = ""
+=======
+automate_license = "JhdG9yIjoiY2hlZi9saWNlbnNlLTIuMC4wIiwia2V5X3NoYTI1NiI6ImUwZGYyOGM4YmM2ODE1MGVkYmZlZjk4Y2Q2YjdkYzQzOWMxZjgwYzdlN2VmNzQ3ODkzYTY4OTNhMmY3YjYwZjciLCJnZW5lcmF0aW9uX2RhdGUiOnsic2Vjb25kcyI6MTU4MDQwMzUzMn0sImN1c3RvbWVyIjoiRGFuIEZsb3JlcyBNb250YW5leiIsImN1c3RvbWVyX2lkIjoiNzZkNjUxM2ItNmQzOS00NDQxLTljYWItMmM2YzViMjJjYTQxIiwiY3VzdG9tZXJfaWRfdmVyc2lvbiI6IjEiLCJlbnRpdGxlbWVudHMiOlt7Im5hbWUiOiJDaGVmIEF1dG9tYXRlIiwibWVhc3VyZSI6Im5vZGVzIiwibGltaXQiOi0xLCJzdGFydCI6eyJzZWNvbmRzIjoxNTgwMzQyNDAwfSwiZW5kIjp7InNlY29uZHMiOjE2MTIwNTExOTl9fV19.ARVTOXzMxdHgkSy_S1UatFmsqQPvXY81v6VF-1Bt-DgueuYXiPwLpLe5r2jtNfbKgMkmsNT6O2oI6aeQPzGB97-QAfk2gIcHoFIlPokN3RBtyugG0qClHzKKKA5dAQHLkrZLckma7GydFIDgFR48FlucPSiFu56gC9229YygCTxoyAsp"
+>>>>>>> 7f28c14b93fd611b3f0fa72fbbaaeaef32f3f510
 automate_alb_acm_matcher = "*.chef-demo.com"
 automate_alb_r53_matcher = "chef-demo.com."
 automate_custom_ssl = "false"
@@ -26,4 +30,8 @@ automate_user_count = "1"
 automate_user_password = "Cod3Can!"
 workstation_count = "3"
 workstation_user_password = "Cod3Can!"
+<<<<<<< HEAD
 code_server_password = "Cod3Can!"
+=======
+code_server_password = "Cod3Can!"
+>>>>>>> 7f28c14b93fd611b3f0fa72fbbaaeaef32f3f510

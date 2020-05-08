@@ -8,11 +8,16 @@ sudo yum update --assumeyes --quiet
 # Add nano editor
 sudo yum install nano --assumeyes --quiet
 
+# Add wget
+sudo yum install wget -y
+
 # Install latest version of Chef Workstation
-curl -LO https://omnitruck.chef.io/install.sh && sudo bash ./install.sh -P chef-workstation && rm install.sh
+# curl -LO https://omnitruck.chef.io/install.sh && sudo bash ./install.sh -P chef-workstation && rm install.sh
+sudo wget https://packages.chef.io/files/stable/chef-workstation/0.17.5/el/7/chef-workstation-0.17.5-1.el7.x86_64.rpm
+sudo rpm -ivh chef-workstation-0.17.5-1.el7.x86_64.rpm
+
 
 # Start Docker
-
 sudo systemctl enable docker
 sudo systemctl start docker
 
